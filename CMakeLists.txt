@@ -20,10 +20,6 @@ enable_testing()
 
 add_subdirectory(src)
 add_subdirectory(test)
-#add_subdirectory(bench)
 add_subdirectory(external/mmh)
-#
-#add_executable(main main.cpp)
-#target_link_libraries(main TRIE)
 
-#target_link_libraries(BLOOM_FILTER PUBLIC mmh)
+target_link_libraries(BLOOM_FILTER mmh)
