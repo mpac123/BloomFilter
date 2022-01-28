@@ -15,7 +15,7 @@ public:
     uint64_t getMemoryUsage();
     double getFPR() const { return fpr_; }
     uint8_t getNumberOfHashed() const { return numberOfHashes_; }
-
+    uint64_t getSize() const { return bitArray_.size(); }
 
 private:
     std::vector<bool> bitArray_;
