@@ -11,9 +11,10 @@ namespace bloom_filter {
 class BloomFilter {
 public:
     BloomFilter(std::vector<std::string> &keys, uint32_t size);
-    bool lookupKey(std::string key);
+    bool lookupKey(const std::string& key);
     uint64_t getMemoryUsage();
-    double getFPR() { return fpr_; }
+    double getFPR() const { return fpr_; }
+    uint8_t getNumberOfHashed() const { return numberOfHashes_; }
 
 
 private:

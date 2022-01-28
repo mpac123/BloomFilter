@@ -23,7 +23,7 @@ namespace bloom_filter {
         return k_;
     }
 
-    bool BloomFilter::lookupKey(std::string key) {
+    bool BloomFilter::lookupKey(const std::string& key) {
         int32_t counter = 0;
         for (size_t i = 0 ; i < numberOfHashes_ ; i++) {
             uint32_t result;
@@ -42,6 +42,6 @@ namespace bloom_filter {
     }
 
     uint64_t BloomFilter::getMemoryUsage() {
-        return sizeof(uint8_t) + bitArray_.size();
+        return sizeof(uint8_t) + std::floor(bitArray_.size() / 8.0);
     }
 }
