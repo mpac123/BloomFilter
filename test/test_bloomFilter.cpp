@@ -54,6 +54,24 @@ class BloomFilterUnitTest : public ::testing::Test {};
         ASSERT_GT(small_filter.getFPR(), medium_filter.getFPR());
         ASSERT_GT(medium_filter.getFPR(), large_filter.getFPR());
     }
+
+    TEST_F(BloomFilterUnitTest, numberOfHashes) {
+        // Optimal k = m / n * ln(2)
+        // For m = 3000 and n = 1000 k should be 2
+        // For m = 7300 and n = 1000 k should be 5
+
+        auto keys = std::vector<std::string>();
+        int n = 1000;
+        for (size_t i = 0; i < n; i++) {
+            keys.push_back(std::to_string(i));
+        }
+
+        auto filter = BloomFilter(keys, 3000);
+        ASSERT_EQ(filter.getNumberOfHashes(), 2);
+
+        filter = BloomFilter(keys, 7300);
+        ASSERT_EQ(filter.getNumberOfHashes(), 5);
+    }
 }
 }
 

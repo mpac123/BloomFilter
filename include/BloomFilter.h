@@ -10,20 +10,20 @@ namespace bloom_filter {
 
 class BloomFilter {
 public:
-    BloomFilter(std::vector<std::string> &keys, uint32_t size);
+    BloomFilter(std::vector<std::string> &keys, uint32_t m);
     bool lookupKey(const std::string& key);
     uint64_t getMemoryUsage();
     double getFPR() const { return fpr_; }
-    uint8_t getNumberOfHashed() const { return numberOfHashes_; }
+    uint16_t getNumberOfHashes() const { return k_; }
     uint64_t getSize() const { return bitArray_.size(); }
 
 private:
     std::vector<bool> bitArray_;
-    uint8_t numberOfHashes_;
+    uint16_t k_;
     double fpr_;
 
-    uint8_t calculateNumberOfHashes(uint32_t n);
-    double calculateFPR(uint32_t n, uint32_t size) const;
+    uint16_t calculateNumberOfHashes(uint32_t n, uint32_t m);
+    double calculateFPR(uint32_t n, uint32_t m) const;
 
 };
 } // namespace bloom_filter
