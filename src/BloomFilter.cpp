@@ -42,6 +42,6 @@ namespace bloom_filter {
     }
 
     uint64_t BloomFilter::getMemoryUsage() {
-        return sizeof(BloomFilter) + sizeof(bitArray_);
+        return sizeof(uint8_t) + bitArray_.size();
     }
 }
