@@ -25,7 +25,7 @@ void quotient_filter::QuotientFilter::insertKey(const std::string &key) {
     uint32_t remainder = fingerprint % (int)(std::pow(2, p_ - q_));
 
     // Slot is empty, we can just insert the key
-    if (!is_occupied_[quotient] && !is_continuation_[quotient] && !is_shifted_[quotient]) {
+     if (!is_occupied_[quotient] && !is_continuation_[quotient] && !is_shifted_[quotient]) {
         remainder_table_[quotient] = remainder;
         is_occupied_[quotient] = true;
         return;
@@ -42,10 +42,10 @@ void quotient_filter::QuotientFilter::insertKey(const std::string &key) {
     }
 
     while (runs_count > 0) {
+        pos++;
         if (!is_continuation_[pos]) {
             runs_count--;
         }
-        pos++;
     };
 
     // pos now indicates the quotient's run
@@ -65,6 +65,7 @@ void quotient_filter::QuotientFilter::insertKey(const std::string &key) {
         remainder_table_[pos] = remainder;
         is_continuation_[pos] = true;
         is_shifted_[pos] = true;
+        is_occupied_[quotient] = true;
         return;
     }
     // Otherwise, shift the consecutive elements at and after pos to the right
@@ -88,6 +89,7 @@ void quotient_filter::QuotientFilter::insertKey(const std::string &key) {
     remainder_table_[pos] = remainder;
     is_continuation_[pos] = true;
     is_shifted_[pos] = true;
+    is_occupied_[quotient] = true;
 }
 
 bool quotient_filter::QuotientFilter::lookupKey(const std::string &key) {
@@ -98,13 +100,13 @@ bool quotient_filter::QuotientFilter::lookupKey(const std::string &key) {
     uint32_t remainder = fingerprint % (int)(std::pow(2, p_ - q_));
 
     // Slot is empty
-    if (!is_occupied_[quotient] && !is_continuation_[quotient] && !is_shifted_[quotient]) {
+    if (!is_occupied_[quotient]) {
         return false;
     }
 
     // locate the start of the cluster and count number of runs within cluster
     uint32_t pos = quotient;
-    uint32_t runs_count = 0;
+    int32_t runs_count = 0;
     while (is_shifted_[pos]) {
         pos--;
         if (is_occupied_[pos]) {
@@ -113,10 +115,10 @@ bool quotient_filter::QuotientFilter::lookupKey(const std::string &key) {
     }
 
     while (runs_count > 0) {
+        pos++;
         if (!is_continuation_[pos]) {
             runs_count--;
         }
-        pos++;
     };
 
     // pos now indicates the quotient's run

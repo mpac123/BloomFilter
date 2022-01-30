@@ -52,6 +52,7 @@ namespace quotient_filter {
 
             ASSERT_FALSE(filter.lookupKey("stop"));
             ASSERT_FALSE(filter.lookupKey("false_positive"));
+            ASSERT_FALSE(filter.lookupKey("trri"));
         }
 
     TEST_F(QuotientFilterUnitTest, memoryUsage) {
