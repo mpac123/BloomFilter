@@ -44,8 +44,8 @@ void quotient_filter::QuotientFilter::insertKey(const std::string &key) {
     while (runs_count > 0) {
         if (!is_continuation_[pos]) {
             runs_count--;
-            pos++;
         }
+        pos++;
     };
 
     // pos now indicates the quotient's run
@@ -116,6 +116,7 @@ bool quotient_filter::QuotientFilter::lookupKey(const std::string &key) {
         if (!is_continuation_[pos]) {
             runs_count--;
         }
+        pos++;
     };
 
     // pos now indicates the quotient's run

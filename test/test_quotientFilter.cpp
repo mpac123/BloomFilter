@@ -28,6 +28,32 @@ namespace quotient_filter {
             ASSERT_FALSE(filter.lookupKey("false_positive"));
     }
 
+        TEST_F(QuotientFilterUnitTest, biggerQuotientFilter) {
+            std::vector<std::string> keys = {
+                    "f",
+                    "fa",
+                    "far",
+                    "fast",
+                    "fas",
+                    "s",
+                    "t",
+                    "to",
+                    "top",
+                    "toy",
+                    "trie",
+                    "tr",
+                    "tri"
+            };
+            auto filter = QuotientFilter(keys, 4, 5);
+
+            for (const auto& key : keys) {
+                ASSERT_TRUE(filter.lookupKey(key));
+            }
+
+            ASSERT_FALSE(filter.lookupKey("stop"));
+            ASSERT_FALSE(filter.lookupKey("false_positive"));
+        }
+
     TEST_F(QuotientFilterUnitTest, memoryUsage) {
         std::vector<std::string> keys = {
                 "f",
