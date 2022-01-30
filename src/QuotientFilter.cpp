@@ -5,6 +5,7 @@ quotient_filter::QuotientFilter::QuotientFilter(std::vector<std::string> &keys, 
     if (failed_) return;
     q_ = q;
     p_ = q + r;
+    n_ = keys.size();
 
     remainder_table_ = std::vector<uint32_t>(std::pow(2, q) + 3);
     is_occupied_ = std::vector<bool>(std::pow(2, q) + 3);
@@ -128,4 +129,9 @@ bool quotient_filter::QuotientFilter::lookupKey(const std::string &key) {
 uint64_t quotient_filter::QuotientFilter::getMemoryUsage() {
     return std::ceil(((uint64_t) std::pow(2, p_-q_)) * remainder_table_.size() / 8.0)
     + 3 * std::ceil(remainder_table_.size() / 8.0);
+}
+
+double quotient_filter::QuotientFilter::calculateFalsePositiveProbability() {
+    // According to Bender et al.
+    return 1 - std::pow(1 - std::pow(2, -p_), n_);
 }

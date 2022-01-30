@@ -12,6 +12,8 @@ public:
     QuotientFilter(std::vector<std::string> &keys, uint32_t q, uint32_t r);
     bool lookupKey(const std::string& key);
     uint64_t getMemoryUsage();
+    double calculateFalsePositiveProbability();
+    bool hasFailed() { return failed_; };
 
 private:
     std::vector<uint32_t> remainder_table_;
@@ -21,6 +23,7 @@ private:
 
     uint32_t p_;
     uint32_t q_;
+    uint64_t n_;
     bool failed_;
 
     void insertKey(const std::string& key);
