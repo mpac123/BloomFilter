@@ -10,3 +10,4 @@ function (add_unit_test file_name)
 endfunction()
 
 add_unit_test(test_bloomFilter)
+add_unit_test(test_quotientFilter)

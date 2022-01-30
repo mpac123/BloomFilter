@@ -22,4 +22,4 @@ add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(external/mmh)
 
-target_link_libraries(BLOOM_FILTER mmh)
+target_link_libraries(FILTER mmh)

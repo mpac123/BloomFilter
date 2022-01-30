@@ -1,1 +1,1 @@
-add_library(BLOOM_FILTER BloomFilter.cpp)
+add_library(FILTER BloomFilter.cpp QuotientFilter.cpp)
