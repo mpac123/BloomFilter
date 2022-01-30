@@ -26,6 +26,8 @@ private:
     uint64_t n_;
     bool failed_;
 
+    uint64_t arr_size_;
+
     void insertKey(const std::string& key);
 };
 }

@@ -79,6 +79,30 @@ namespace quotient_filter {
         ASSERT_GT(size_large_filter, size_medium_filter);
         ASSERT_GT(size_medium_filter, size_small_filter);
     }
+
+        TEST_F(QuotientFilterUnitTest, tinyQuotientFilter) {
+            std::vector<std::string> keys = {
+                    "f",
+                    "far",
+                    "fast",
+                    "s",
+                    "top",
+                    "toy",
+                    "trash",
+                    "trie",
+                    "trr"
+            };
+            auto filter = QuotientFilter(keys, 2, 4);
+
+            ASSERT_FALSE(filter.hasFailed());
+
+            for (const auto& key : keys) {
+                ASSERT_TRUE(filter.lookupKey(key));
+            }
+
+            ASSERT_FALSE(filter.lookupKey("stop"));
+            ASSERT_FALSE(filter.lookupKey("false_positive"));
+        }
     }
 }
 

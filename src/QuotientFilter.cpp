@@ -7,12 +7,14 @@ quotient_filter::QuotientFilter::QuotientFilter(std::vector<std::string> &keys, 
     p_ = q + r;
     n_ = keys.size();
 
-    remainder_table_ = std::vector<uint32_t>(std::pow(2, q) + 3);
-    is_occupied_ = std::vector<bool>(std::pow(2, q) + 3);
-    is_continuation_ = std::vector<bool>(std::pow(2, q) + 3);
-    is_shifted_ = std::vector<bool>(std::pow(2, q) + 3);
+    arr_size_ = std::pow(2, q) + 3;
 
-    for (auto key : keys) {
+    remainder_table_ = std::vector<uint32_t>(arr_size_);
+    is_occupied_ = std::vector<bool>(arr_size_);
+    is_continuation_ = std::vector<bool>(arr_size_);
+    is_shifted_ = std::vector<bool>(arr_size_);
+
+    for (const auto& key : keys) {
         insertKey(key);
     }
 }
@@ -54,9 +56,14 @@ void quotient_filter::QuotientFilter::insertKey(const std::string &key) {
         if (remainder_table_[pos] == remainder) return;
         pos++;
         if (pos >= remainder_table_.size()) {
-            // Insert fails due to lack of space in the hash table
-            failed_ = true;
-            return;
+            // Insert fails due to lack of space in the hash table, extend it
+            for (size_t i = 0; i < 4; i++) {
+                arr_size_++;
+                remainder_table_.push_back(0);
+                is_occupied_.push_back(0);
+                is_continuation_.push_back(0);
+                is_shifted_.push_back(0);
+            }
         }
     } while (is_continuation_[pos]);
 
@@ -73,15 +80,21 @@ void quotient_filter::QuotientFilter::insertKey(const std::string &key) {
     while (is_occupied_[empty_pos] || is_continuation_[empty_pos] || is_shifted_[empty_pos]) {
         empty_pos++;
         if (empty_pos >= remainder_table_.size()) {
-            // Insert fails due to lack of space in the hash table
-            failed_ = true;
-            return;
+            // Insert fails due to lack of space in the hash table, extend it
+            for (size_t i = 0; i < 4; i++) {
+                arr_size_++;
+                remainder_table_.push_back(0);
+                is_occupied_.push_back(0);
+                is_continuation_.push_back(0);
+                is_shifted_.push_back(0);
+            }
         }
     }
 
     while (empty_pos > pos) {
         remainder_table_[empty_pos] = remainder_table_[empty_pos - 1];
         is_shifted_[empty_pos] = true;
+        is_continuation_[empty_pos] = is_continuation_[empty_pos-1];
         empty_pos--;
     }
 
